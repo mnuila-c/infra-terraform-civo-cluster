@@ -41,16 +41,12 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.7 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.23.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.11.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_civo"></a> [civo](#provider\_civo) | >= 1.0.49 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.23.0 |
-| <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.11.0 |
 
 ## Modules
 
@@ -68,14 +64,22 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_namespace_name"></a> [namespace_name](#input\_namespace_name) | Specify the deployment namespace name, default value netris-operator. | `string` | `"standalone"` | no |
-| <a name="input_context"></a> [context](#input\_context) | Receive contextual information. When Walrus deploys, Walrus will inject specific contextual information into this field.<br><br>Examples:<pre>context:<br>  project:<br>    name: string<br>    id: string<br>  environment:<br>    name: string<br>    id: string<br>  resource:<br>    name: string<br>    id: string</pre> | `map(any)` | `{}` | no |
-| <a name="input_engine_parameters"></a> [engine\_parameters](#input\_engine\_parameters) | Specify the deployment parameters, see https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.Redis.html. | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `[]` | no |
-| <a name="input_engine_version"></a> [engine\_version](#input\_engine\_version) | Specify the deployment engine version. | `string` | `"7.0"` | no |
-| <a name="input_infrastructure"></a> [infrastructure](#input\_infrastructure) | Specify the infrastructure information for deploying.<br><br>Examples:<pre>infrastructure:<br>  vpc_id: string, optional             # the ID of the VPC where the Redis service applies<br>  kms_key_id: string, optional         # the ID of the KMS key which to encrypt the Redis data<br>  domain_suffix: string, optional      # a private DNS namespace of the CloudMap where to register the applied Redis service</pre> | <pre>object({<br>    vpc_id        = optional(string)<br>    kms_key_id    = optional(string)<br>    domain_suffix = optional(string)<br>  })</pre> | `{}` | no |
-| <a name="input_password"></a> [password](#input\_password) | Specify the account password. The password must be 16-32 characters long and start with any letter, number, or the following symbols: ! # $ % ^ & * ( ) \_ + - =.<br>If not specified, it will generate a random password. | `string` | `null` | no |
-| <a name="input_replication_readonly_replicas"></a> [replication\_readonly\_replicas](#input\_replication\_readonly\_replicas) | Specify the number of read-only replicas under the replication deployment. | `number` | `1` | no |
-| <a name="input_resources"></a> [resources](#input\_resources) | Specify the computing resources.<br>Examples:<pre>resources:<br>  class: string, optional      # https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html</pre> | <pre>object({<br>    class = optional(string, "cache.t3.micro")<br>  })</pre> | <pre>{<br>  "class": "cache.t3.micro"<br>}</pre> | no |
+| <a name="input_cluster_name"></a> [cluster_name](#input\_cluster_name) | Name of the Kubernetes cluster. | `string` | n/a | yes |
+| <a name="input_network_label"></a> [network_label](#input\_network_label) | Label for the network. | `string` | n/a | yes |
+| <a name="input_firewall_name"></a> [firewall_name](#input\_firewall_name) | Name of the firewall rule set. | `string` | n/a | yes |
+| <a name="input_node_pool_label"></a> [node_pool_label](#input\_node_pool_label) | Label for the node pool. | `string` | n/a | yes |
+| <a name="input_network_cidr_v4"></a> [network_cidr_v4](#input\_network\_cidr\_v4) | CIDR block for the network. | `string` | n/a | yes |
+| <a name="input_network_nameservers_v4"></a> [network_nameservers_v4](#input\_network_nameservers_v4) | List of nameservers for the network. | `list(string)` | `[]` | no |
+| <a name="input_kubernetes_version"></a> [kubernetes_version](#input\_kubernetes_version) | Version of Kubernetes to use. | `string` | `"1.27.0"` | no |
+| <a name="input_region"></a> [region](#input\_region) | Civo region to deploy the cluster. | `string` | `"NYC1"` | no |
+| <a name="input_cluster_type"></a> [cluster_type](#input\_cluster_type) | Type of cluster (e.g., `talos`, `k3s`). | `string` | `"talos"` | no |
+| <a name="input_cni"></a> [cni](#input\_cni) | CNI plugin to use (e.g., `flannel`, `cilium`). | `string` | `"flannel"` | no |
+| <a name="input_node_size"></a> [node_size](#input\_node_size) | Size of the nodes in the pool. | `string` | `"g4p.kube.small"` | no |
+| <a name="input_node_count"></a> [node_count](#input\_node_count) | Number of nodes in the pool. | `number` | `3` | no |
+| <a name="input_local_cidr"></a> [local_cidr](#input\_local_cidr) | Local CIDR for ingress firewall rules. | `list(string)` | `[]` | no |
+| <a name="input_external_network"></a> [external_network](#input\_external_network) | external CIDR for kubectl access. | `list(string)` | `["0.0.0.0/0"]` | no |
+| <a name="input_default_cidr"></a> [default_cidr](#input\_default_cidr) | default CIDR 0.0.0.0/0. | `list(string)` | `["0.0.0.0/0"]` | no |
+
 
 ## Outputs
 

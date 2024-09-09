@@ -117,7 +117,7 @@ variable "network_nameservers_v4" {
 #
 
 variable "firewall_name" {
-  description = "Name of the firewall"
+  description = "Name of the firewall rule set"
   type        = string
 }
 
@@ -134,7 +134,7 @@ variable "default_cidr" {
 }
 
 variable "local_cidr" {
-  description = "Local CIDR for ingress rules"
+  description = "Local CIDR for ingress firewall rules"
   type        = list(string)
   default     = ["192.16.0.0/20"]
 }
